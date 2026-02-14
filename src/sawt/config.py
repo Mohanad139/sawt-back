@@ -32,10 +32,10 @@ class LiveKitSettings:
 
 @dataclass(frozen=True)
 class STTSettings:
-    """OpenAI Whisper speech-to-text configuration."""
+    """OpenAI realtime speech-to-text configuration."""
 
     model: str = field(
-        default_factory=lambda: os.getenv("STT_MODEL", "whisper-1")
+        default_factory=lambda: os.getenv("STT_MODEL", "gpt-4o-transcribe")
     )
     language: str = field(
         default_factory=lambda: os.getenv("STT_LANGUAGE", "")

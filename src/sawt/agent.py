@@ -33,6 +33,7 @@ class SawtVoiceAgent:
             model=cfg.model,
             detect_language=not cfg.language,
             language=cfg.language or "en",
+            use_realtime=True,
         )
 
     def _build_llm(self) -> openai.LLM:
