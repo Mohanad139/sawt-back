@@ -32,24 +32,13 @@ class LiveKitSettings:
 
 @dataclass(frozen=True)
 class STTSettings:
-    """Speech-to-text configuration. Supports 'openai' or 'deepgram' provider."""
+    """Deepgram speech-to-text configuration (streaming, required for real-time)."""
 
-    provider: str = field(
-        default_factory=lambda: os.getenv("STT_PROVIDER", "openai")
+    model: str = field(
+        default_factory=lambda: os.getenv("STT_MODEL", "nova-3")
     )
-    # OpenAI Whisper settings (default — best Arabic support)
-    openai_model: str = field(
-        default_factory=lambda: os.getenv("STT_MODEL", "whisper-1")
-    )
-    openai_language: str = field(
-        default_factory=lambda: os.getenv("STT_LANGUAGE", "")
-    )
-    # Deepgram settings (fallback)
-    deepgram_model: str = field(
-        default_factory=lambda: os.getenv("STT_DEEPGRAM_MODEL", "nova-3")
-    )
-    deepgram_language: str = field(
-        default_factory=lambda: os.getenv("STT_DEEPGRAM_LANGUAGE", "multi")
+    language: str = field(
+        default_factory=lambda: os.getenv("STT_LANGUAGE", "multi")
     )
 
 
@@ -105,9 +94,8 @@ class Settings:
 def get_settings() -> Settings:
     """Create and validate application settings."""
     _require_env("OPENAI_API_KEY")
+    _require_env("DEEPGRAM_API_KEY")
     settings = Settings()
-    if settings.stt.provider == "deepgram":
-        _require_env("DEEPGRAM_API_KEY")
     if settings.tts.provider == "elevenlabs":
         _require_env("ELEVEN_API_KEY")
     return settings

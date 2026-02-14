@@ -27,16 +27,11 @@ class SawtVoiceAgent:
     # Pipeline component factories
     # ------------------------------------------------------------------
 
-    def _build_stt(self) -> openai.STT | deepgram.STT:
+    def _build_stt(self) -> deepgram.STT:
         cfg = self._settings.stt
-        if cfg.provider == "openai":
-            kwargs: dict[str, str] = {"model": cfg.openai_model}
-            if cfg.openai_language:
-                kwargs["language"] = cfg.openai_language
-            return openai.STT(**kwargs)
         return deepgram.STT(
-            model=cfg.deepgram_model,
-            language=cfg.deepgram_language,
+            model=cfg.model,
+            language=cfg.language,
             smart_format=True,
             punctuate=True,
         )
@@ -84,7 +79,7 @@ class SawtVoiceAgent:
 
         logger.info(
             "Pipeline: STT=%s | LLM=%s | TTS=%s",
-            self._settings.stt.provider,
+            self._settings.stt.model,
             self._settings.llm.model,
             self._settings.tts.provider,
         )
