@@ -104,9 +104,10 @@ class Settings:
 
 def get_settings() -> Settings:
     """Create and validate application settings."""
-    _require_env("DEEPGRAM_API_KEY")
     _require_env("OPENAI_API_KEY")
     settings = Settings()
+    if settings.stt.provider == "deepgram":
+        _require_env("DEEPGRAM_API_KEY")
     if settings.tts.provider == "elevenlabs":
         _require_env("ELEVEN_API_KEY")
     return settings
