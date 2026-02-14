@@ -8,7 +8,7 @@ from typing import Any
 from livekit.agents import JobContext, WorkerOptions, cli
 from livekit.agents.llm import ChatContext, ChatMessage
 from livekit.agents.voice_assistant import VoiceAssistant
-from livekit.plugins import deepgram, elevenlabs, openai, silero
+from livekit.plugins import elevenlabs, openai, silero
 
 from sawt.config import Settings, get_settings
 from sawt.prompts.system import GREETING, SYSTEM_PROMPT
@@ -27,13 +27,12 @@ class SawtVoiceAgent:
     # Pipeline component factories
     # ------------------------------------------------------------------
 
-    def _build_stt(self) -> deepgram.STT:
+    def _build_stt(self) -> openai.STT:
         cfg = self._settings.stt
-        return deepgram.STT(
+        return openai.STT(
             model=cfg.model,
-            language=cfg.language,
-            smart_format=True,
-            punctuate=True,
+            detect_language=not cfg.language,
+            language=cfg.language or "en",
         )
 
     def _build_llm(self) -> openai.LLM:
@@ -78,7 +77,7 @@ class SawtVoiceAgent:
         tts = self._build_tts()
 
         logger.info(
-            "Pipeline: STT=%s | LLM=%s | TTS=%s",
+            "Pipeline: STT=openai/%s | LLM=%s | TTS=%s",
             self._settings.stt.model,
             self._settings.llm.model,
             self._settings.tts.provider,
