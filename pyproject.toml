@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sawt-voice-agent"
+version = "1.0.0"
+description = "Bilingual Arabic/English AI voice agent for Sawt"
+requires-python = ">=3.9"
+dependencies = [
+    "livekit-agents>=0.11,<0.13",
+    "livekit-plugins-deepgram>=0.6,<1.0",
+    "livekit-plugins-openai>=0.8,<1.0",
+    "livekit-plugins-elevenlabs>=0.7,<1.0",
+    "livekit-plugins-silero>=0.6,<1.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+sawt-agent = "sawt.agent:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sawt"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
