@@ -71,10 +71,10 @@ class TTSSettings:
     )
     # OpenAI settings (fallback)
     openai_model: str = field(
-        default_factory=lambda: os.getenv("TTS_OPENAI_MODEL", "tts-1")
+        default_factory=lambda: os.getenv("TTS_OPENAI_MODEL", "gpt-4o-mini-tts")
     )
     openai_voice: str = field(
-        default_factory=lambda: os.getenv("TTS_OPENAI_VOICE", "alloy")
+        default_factory=lambda: os.getenv("TTS_OPENAI_VOICE", "ash")
     )
 
 

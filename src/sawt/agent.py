@@ -56,6 +56,11 @@ class SawtVoiceAgent:
         return openai.TTS(
             model=cfg.openai_model,
             voice=cfg.openai_voice,
+            instructions=(
+                "Speak Arabic in a natural Saudi dialect from Riyadh. "
+                "Use a warm, friendly, conversational tone like a real person — "
+                "not formal or robotic. When the text is in English, speak English naturally."
+            ),
         )
 
     # ------------------------------------------------------------------
